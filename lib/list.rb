@@ -23,18 +23,18 @@ class LinkedList
     return @head == nil
   end
 
-  def append(value)
-    return @head = Node.new(value) if is_empty?
+  def append(key, value)
+    return @head = Node.new(key, value) if is_empty?
     node = @head
     while node.nxt != nil
     node = node.nxt
     end
-    node.nxt = Node.new(value)
+    node.nxt = Node.new(key, value)
   end
 
-  def prepend(value)
-    return @head = Node.new(value) if is_empty?
-    node = Node.new(value)
+  def prepend(key, value)
+    return @head = Node.new(key, value) if is_empty?
+    node = Node.new(key, value)
     node.nxt = @head
     @head = node
   end
@@ -78,7 +78,7 @@ class LinkedList
     node.nxt = nil
   end
 
-  def contains?(value)
+  def contains?(key, value)
     iterate {|node| return true if node.val == value}
     return false
   end
@@ -95,29 +95,29 @@ class LinkedList
     end
   end
 
-  def find(value)
+  def find(key)
     return nil if is_empty?
-    iterate { |node, index| return index if node.val == value }
+    iterate { |node, index| return index if node.key == key }
     return nil
   end
 
   def to_s()
     iterate { |node|
-      print("(#{node.val}) -> ") if istail?(node) == false
-      print("(#{node.val}) -> (nil)\n\n") if istail?(node) == true
+      print("(#{node.key}) -> ") if istail?(node) == false
+      print("(#{node.key}) -> (nil)\n\n") if istail?(node) == true
     }
   end
 
-  #def index(n)
+  #def ind kex(n)
   #  iterate {|node, index| return index n.val == node.val}
   #end
 
-  def insert_at(value, i)
+  def insert_at(key, value, i)
     iterate { |node, index|
       if i == index
         prevnode = at(i-1)
         nextnode = at(i)
-        newnode = Node.new(value)
+        newnode = Node.new(key, value)
         prevnode.nxt = newnode
         newnode.nxt = nextnode
       end
@@ -127,7 +127,9 @@ class LinkedList
 
   def remove_at(i)
     iterate { |node, index|
-      if i == index
+      if @head.nxt == nil
+         @head = nil
+      elsif i == index
         prev = at(i-1)
         cur = at(i)
         prev.nxt = cur.nxt
