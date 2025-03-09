@@ -6,7 +6,7 @@ INITCAP = 16
 
 class HashMap
 
-  attr_accessor :capacity, :loadFactor, :array, :arlen
+  attr_accessor :capacity, :loadFactor, :array, :length
 
   def initialize()
     @loadFactor = 0.75
@@ -41,16 +41,16 @@ class HashMap
     elsif @array[i].at(@array[i].find(key))&.key == key
       @array[i].remove_at(@array[i].find(key))
       @array[i].append(key, value)
-      growCapacity if expand?
     else
       @array[i].append(key, value)
       @length += 1
+      growCapacity if expand?
     end
   end
 
   def remove(key)
-    if  @array[i].at(@array[i].find(key))&.key == key
       i = hash((key)) % @capacity
+    if  @array[i].at(@array[i].find(key))&.key == key
       @array[i].remove_at(@array[i].find(key))
       @length -= 1
     else
@@ -64,6 +64,7 @@ class HashMap
   end
 
   def has?(key)
+    i = hash((key)) % @capacity
     return @array[i].at(@array[i].find(key))&.key == key
   end
 
@@ -118,7 +119,7 @@ class HashMap
   def growCapacity()
     oldarr = @array
     @capacity = @capacity * 2
-    @arlen = 0
+    @length = 0
     @array = []
     oldarr.each { |elem|
       if elem != nil
@@ -131,10 +132,4 @@ class HashMap
     }
   end
 
-end
-
-@testy = HashMap.new
-
-def testy()
-  @testy
 end
